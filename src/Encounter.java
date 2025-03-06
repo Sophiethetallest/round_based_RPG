@@ -15,14 +15,12 @@ public class Encounter {
             if (player.isMage) {
                 System.out.println("Du hast einen besseren Stab gefunden!\nIntelligenz +1");
                 ++player.intel;
-                System.out.println("press enter!\n");
-                input = scan.nextLine();
+                next();
             }
             if (player.isWarrior) {
                 System.out.println("Du hast ein besseres Schwert gefunden!\nStärke +1");
                 ++player.str;
-                System.out.println("press enter!\n");
-                input = scan.nextLine();
+                next();
             }
         }
 
@@ -31,15 +29,13 @@ public class Encounter {
                 System.out.println("Du hast eine bessere Robe gefunden!\nIntelligenz +1\nRüstung +1");
                 ++player.def;
                 ++player.intel;
-                System.out.println("press enter!\n");
-                input = scan.nextLine();
+                next();
             }
             if (player.isWarrior) {
                 System.out.println("Du hast eine bessere Rüstung gefunden!\nStärke +1\nRüstung +2");
                 ++player.str;
                 ++player.def;
-                System.out.println("press enter!\n");
-                input = scan.nextLine();
+                next();
             }
         }
 
@@ -50,24 +46,21 @@ public class Encounter {
             }
             System.out.println("Du findest einen heiligen Brunnen und trinkst daraus!\nDu wurdest um 10 geheilt!\n"
                     + "Deine Gesundheit beträgt jetzt: " + (player.health - player.death));
-            System.out.println("press enter!\n");
-            input = scan.nextLine();
+            next();
         }
 
         if (situation == 4) {
             player.death = player.death + rand.nextInt(5) + 1;
             System.out.println("Du bist in eine Falle geraten!\nDu hast Schaden erlitten und jetzt noch "
                     + (player.health - player.death) + "Gesundheit!");
-            System.out.println("press enter!\n");
-            input = scan.nextLine();
+            next();
         }
 
         if (situation == 5) {
             ++weapon;
             System.out.println("Du begegnest dem Goblin Slayer, der gerade in Goblinärsche tritt.\n" +
                     "Der Anblick motiviert dich, darum machst du jetzt jedesmal einen extra Schadenspunkt!");
-            System.out.println("press enter!\n");
-            input = scan.nextLine();
+            next();
         }
 
         if (situation == 6) {
@@ -80,23 +73,20 @@ public class Encounter {
                     "Sie laden dazu ein, mit ihnen zu rasten und zu speisen.\nDu wurdest um 10 geheilt!\n" +
                     "Deine Gesundheit beträgt jetzt: "
                     + (player.health - player.death));
-            System.out.println("press enter!\n");
-            input = scan.nextLine();
+            next();
         }
 
         if (situation == 7) {
             player.death = player.death + rand.nextInt(5) + 1;
             System.out.println("Du trittst auf einen fürchterlich spitzen Stein!\nDu hast Schaden erlitten " +
                     "und jetzt noch " + (player.health - player.death) + "Gesundheit!");
-            System.out.println("press enter!\n");
-            input = scan.nextLine();
+            next();
         }
 
         if (situation == 8) {
             Item heiltrank = new Item("Heiltrank",1,1,true,false,true);
             player.inventory.addItem(heiltrank);
-            System.out.println("press enter!\n");
-            input = scan.nextLine();
+            next();
         }
 
         /*if (situation == 8) {
@@ -112,5 +102,9 @@ public class Encounter {
             input = scan.nextLine();
         }*/
 
+    }
+    public void next() {
+        System.out.println("press enter!\n");
+        input = scan.nextLine();
     }
 }
