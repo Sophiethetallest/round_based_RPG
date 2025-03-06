@@ -15,7 +15,7 @@ public class Hero {
         this.death = death;
         this.isWarrior = isWarrior;
         this.isMage = isMage;
-        this.inventory = new Inventory(this);
+        this.inventory = new Inventory();
     }
     public void printCharacter() {
         System.out.println("\nDeine Klasse ist: Magier\nDein Name ist: " + this.name + "\nGesundheit: " + this.health + "\nStärke: "

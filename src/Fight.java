@@ -12,7 +12,7 @@ public class Fight {
 
     public Fight(Hero player, Enemy enemy) {
         while (enemy.mobLife > 0 && player.health > player.death) {
-            System.out.print("\nAngreifen(1)?\nFähigkeit(2)?\n");
+            System.out.print("\nAngreifen(1)?\nFähigkeit(2)?\nInventory(3)?\n");
             abilityNr = scan.nextInt();
             int restart = 0; 
             if (abilityNr == 1) {
@@ -20,12 +20,12 @@ public class Fight {
                 System.out.print("Du hast " + dmg + " Schaden gemacht!\n");
                 enemy.mobLife -= dmg;
                 System.out.print("Der Gegner hat noch " + enemy.mobLife + " Gesundheit!\n");
-            } else {
+            } else if (abilityNr == 2){
                 ability.abilityName(player);
                 if (player.isMage){
                     abilityNr = scan.nextInt();
                     if ((abilityNr -2) > player.lvl) {
-                    	System.out.print("Fähigkeit noch nicht freigeschalten");
+                    	System.out.print("Fähigkeit noch nicht freigeschalten\n");
                     	restart ++;
                     } else {
                      mageAbility.abilityMage(abilityNr, player, enemy, weapon);
@@ -34,12 +34,14 @@ public class Fight {
                 if (player.isWarrior){
                     abilityNr = scan.nextInt();
                     if ((abilityNr -2) > player.lvl) {
-                    	System.out.print("Fähigkeit noch nicht freigeschalten");
+                    	System.out.print("Fähigkeit noch nicht freigeschalten\n");
                     	restart ++;
                     } else {
                      warriorAbility.abilityWarrior(abilityNr, player, enemy, weapon);
                     }
                 }
+            } else if (abilityNr == 3) {
+                player.inventory.listItems();
             }
             if (restart < 0) {
 	            if (enemy.mobLife > 0 && enemy.mobStun == 0) {
@@ -109,7 +111,7 @@ public class Fight {
             			System.out.print("Du hast " + mobDmg + " Schaden erlitten!\n");
             			player.death += mobDmg;
             			System.out.print("Du hast noch " + (player.health - player.death) + " Gesundheit!\n");
-            			bossability ++;
+                        ++bossability;
             		} else {
             			System.out.print("Der Ogerboss schwingt wild seine fette Keule und wird in der nächsten Runde hart zuschlagen");
             			hardhit = 1;

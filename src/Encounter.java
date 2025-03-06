@@ -93,6 +93,13 @@ public class Encounter {
         }
 
         if (situation == 8) {
+            Item heiltrank = new Item("Heiltrank",1,1,true,false,true);
+            player.inventory.addItem(heiltrank);
+            System.out.println("press enter!\n");
+            input = scan.nextLine();
+        }
+
+        /*if (situation == 8) {
             items = Item.createNewWeakHealing();
             player.inventory.addItem(items, player);
             System.out.println("Du findest einen schwachen Heiltrank und steckst ihn in deine Tasche!");
@@ -103,7 +110,7 @@ public class Encounter {
             player.inventory.addItem(items, player);
             System.out.println(player.inventory.itemList.get(1).amount);
             input = scan.nextLine();
-        }
+        }*/
 
     }
 }
