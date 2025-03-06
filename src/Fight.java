@@ -41,9 +41,24 @@ public class Fight {
                     }
                 }
             } else if (abilityNr == 3) {
-                player.inventory.listItems();
+                while (true) {
+                    player.inventory.listItems();
+                    System.out.print("Gib die Nummer des Items ein oder x zum zurück gehen: ");
+                    String inputChoice = scan.next();
+
+                    if (inputChoice.equalsIgnoreCase("x")) {
+                        break;
+                    }
+
+                    try {
+                        int itemIndex = Integer.parseInt(inputChoice); // String → Zahl umwandeln
+                        player.inventory.useItemByIndex(itemIndex, player);
+                    } catch (NumberFormatException e) {
+                        System.out.println("Ungültige Eingabe! Bitte eine Zahl oder 'x' eingeben.");
+                    }
+                }
             }
-            if (restart < 0) {
+            if (restart < 1) {
 	            if (enemy.mobLife > 0 && enemy.mobStun == 0) {
 	                mobDmg = (rand.nextInt(3) + 1 + enemy.mobStrength) - player.def;
 	                if (enemy.mobBlock > 0){
@@ -52,6 +67,7 @@ public class Fight {
 	                    System.out.print("Du hast " + mobDmg + " Schaden erlitten!\n");
 	                    player.death += mobDmg;
 	                }
+                    //System.out.print(player.death + " " + player.health);
 	                System.out.print("Du hast noch " + (player.health - player.death) + " Gesundheit!\n");
 	            } else {
 	                enemy.mobStun -= 1;

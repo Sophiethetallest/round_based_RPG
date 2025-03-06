@@ -5,12 +5,16 @@ public class Encounter {
     Scanner scan = new Scanner(System.in);
     Random rand = new Random();
     String input;
-    Item items;
+    Item smallHeal = new Item("kleiner Heiltrank",1,5,true,false,true);
+    Item midHeal = new Item("mittlerer Heiltrank",1,10,true,false,true);
+    Item bigHeal = new Item("großer Heiltrank",1,20,true,false,true);
+
     public Encounter(){
 
     }
     public void encounter(int weapon, Hero player) {
-        int situation = rand.nextInt(8)+1;
+        //int situation = rand.nextInt(8)+1;
+        int situation = 8;
         if (situation == 1) {
             if (player.isMage) {
                 System.out.println("Du hast einen besseren Stab gefunden!\nIntelligenz +1");
@@ -84,25 +88,17 @@ public class Encounter {
         }
 
         if (situation == 8) {
-            Item heiltrank = new Item("Heiltrank",1,1,true,false,true);
-            player.inventory.addItem(heiltrank);
+            if (player.lvl <=1) {
+                player.inventory.addItem(smallHeal);
+            } else if (player.lvl == 2) {
+                player.inventory.addItem(midHeal);
+            } else {
+                player.inventory.addItem(bigHeal);
+            }
             next();
         }
-
-        /*if (situation == 8) {
-            items = Item.createNewWeakHealing();
-            player.inventory.addItem(items, player);
-            System.out.println("Du findest einen schwachen Heiltrank und steckst ihn in deine Tasche!");
-            System.out.println("name: " + items.name + "\nAnzahl: " + items.amount);
-            System.out.println(player.inventory.itemList.get(0).amount);
-            input = scan.nextLine();
-            items = Item.createNewNormalHealing();
-            player.inventory.addItem(items, player);
-            System.out.println(player.inventory.itemList.get(1).amount);
-            input = scan.nextLine();
-        }*/
-
     }
+
     public void next() {
         System.out.println("press enter!\n");
         input = scan.nextLine();

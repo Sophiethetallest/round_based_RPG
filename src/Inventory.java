@@ -9,7 +9,7 @@ public class Inventory {
 
     public void addItem(Item newItem) {
         for (Item item : items) {
-            if (item.getId().equals(newItem.getId())) { // Vergleich anhand der ID
+            if (item.getName().equals(newItem.getName())) {
                 if (item.isStackable()) {
                     item.increaseAmount(newItem.getAmount());
                     System.out.println(newItem.getName() + " Menge erhöht auf " + item.getAmount());
@@ -24,27 +24,52 @@ public class Inventory {
         System.out.println(newItem.getName() + " wurde dem Inventar hinzugefügt.");
     }
 
-    public void removeItem(String itemId, int amount) {
+    /*public void removeItem(String itemName, int amount) {
         for (Item item : items) {
-            if (item.getId().equals(itemId)) {
+            if (item.getName().equals(itemName)) {
                 item.decreaseAmount(amount);
                 if (item.getAmount() == 0) {
                     items.remove(item);
-                    System.out.println("[" + itemId + "] wurde aus dem Inventar entfernt.");
+                    System.out.println(itemName + " wurde aus dem Inventar entfernt.");
                 } else {
-                    System.out.println("[" + itemId + "] Menge reduziert auf " + item.getAmount());
+                    System.out.println("Menge von " + itemName + " reduziert auf " + item.getAmount());
                 }
                 return;
             }
         }
-        System.out.println("Item mit ID [" + itemId + "] nicht gefunden.");
-    }
+        System.out.println("Item " + itemName + " nicht gefunden.");
+    }*/
 
     public void listItems() {
         if (items.isEmpty()) {
             System.out.println("Inventar ist leer.");
         } else {
-            items.forEach(System.out::println);
+            System.out.println("Dein Inventar:");
+            int index = 1;
+            for (Item item : items) {
+                System.out.println(index + ". " + item.getName() + " | Menge: " + item.getAmount());
+                index++;
+            }
+        }
+    }
+    public void useItemByIndex(int index, Hero player) {
+        if (index > 0 && index <= items.size()) {
+            Item item = items.get(index - 1);
+
+            if (item.healItem) {
+                item.HealUsage(player, item.heal);
+                System.out.println(item.getName() + " benutzt!");
+
+                item.decreaseAmount(1);
+                if (item.getAmount() == 0) {
+                    items.remove(item);
+                    System.out.println("Das war dein letzter " + item.getName());
+                }
+            } else {
+                System.out.println("Dieses Item kann nicht verwendet werden.");
+            }
+        } else {
+            System.out.println("Ungültige Auswahl!");
         }
     }
 }
