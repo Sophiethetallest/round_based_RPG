@@ -1,12 +1,12 @@
 import java.util.Random;
 
 class Item {
-    private String name;
+    private final String name;
     private int amount;
     public int heal;
-    public boolean healItem;
-    private boolean equipment;
-    private boolean stackable;
+    public final boolean healItem;
+    private final boolean equipment;
+    private final boolean stackable;
 
     public Item(String name, int amount, int heal, boolean healItem, boolean equipment, boolean stackable) {
         this.name = name;
@@ -25,11 +25,8 @@ class Item {
 
     public void HealUsage(Hero player, int heal) {
         Random rand = new Random();
-        heal = ((rand.nextInt(heal) + 1) + (rand.nextInt(heal) + 1) + (rand.nextInt(heal) + 1));
-        player.death -= heal;
-        System.out.print("Du wurdest um " + heal + " geheilt\n");
-        if (player.death < 0) {
-            player.death = 0;
-        }
+        int endHeal = ((rand.nextInt(heal) + 1) + (rand.nextInt(heal) + 1) + (rand.nextInt(heal) + 1));
+        player.death = Math.max(0, player.death - endHeal);
+        System.out.print("Du wurdest um " + endHeal + " geheilt\n");
     }
 }
