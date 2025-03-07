@@ -2,98 +2,83 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Main {
-
     public static void main(String[] args) {
-        Scanner scan = new Scanner(System.in);
         Random rand = new Random();
-        int  weapon = 0, job = 0, situation = 0, mob = 0;
-        Hero player;
-        Enemy enemy = null;
-        Encounter notFight;
-        Fight fight = null;
-
-        System.out.print("Gib den Namen deines Charakters ein");
-        String name = scan.nextLine();
-        job = chooseJob();
-
-        if (job == 1) {
-            player = new Hero(name, 30, 1, 10, 1, 30, 0, 0, false, true);
-            player.printCharacter();
-        } else {
-            player = new Hero(name, 60, 10, 1, 2, 10, 0, 0, true, false);
-            player.printCharacter();
-        }
-        player.lvl = 0;
+        int weapon = 0, situation;
+        Hero player = createCharacter();
+        player.lvl = 2;
 
         while (player.health > player.death && player.lvl < 4) {
             if (player.lvl < 3) {
-                situation = chooseEncounter(situation);
-                //&& situation <= 0
+                situation = chooseEncounter();
                 if (situation >= 15) {
-                    mob = rand.nextInt(5+5)+1;
-                    if (mob <= 4) {
-                        enemy = new Enemy("Goblin", 20, 2, 1, 0, 0);
-                        enemy.enemyPresentation();
-                    }
-                    if (mob >= 7) {
-                        enemy = new Enemy("Ork", 30, 4, 2, 0, 0);
-                        enemy.enemyPresentation();
-                    }
-                    if (mob == 5 || mob == 6) {
-                        enemy = new Enemy("Troll", 40, 6, 3, 0, 0);
-                        enemy.enemyPresentation();
-                    }
-                    fight = new Fight(player, enemy);
+                    Enemy enemy = generateEnemy(rand);
+                    enemy.enemyPresentation();
+                    new Fight(player, enemy);
                 } else {
-                    notFight = new Encounter();
-                    notFight.encounter(weapon, player);
+                    new Encounter().encounter(weapon, player);
                 }
-                if (player.mana < 30) {
-                    if (player.isMage) {
-                        System.out.print("Du hast 1 Mana erhalten!\nDu hast jetzt noch " + player.mana + " Mana\n");
-                        ++player.mana;
-                    }
-                    if (player.isWarrior)
-                        if (player.mana < 10) {
-                            System.out.print("Du hast 1 Energie erhalten!\nDu hast jetzt noch " + player.mana + " Energie\n");
-                            ++player.mana;
-                        }
-                    System.out.println("press enter!\n");
-                    String input = scan.nextLine();
-                }
-            } else{
-             fight.Bossfight(player);
+                regenerateMana(player);
+            } else {
+                new Fight(player, new Enemy("Ogerboss", 150, 8, 300, 0, 0)).Bossfight(player);
             }
         }
-        if (player.health < player.death)
-            System.out.print("Du bist tot!");
-        else
-            System.out.print("Der Ogerboss ist tot!\nDein Genozid abgeschlossen!\nAlle Bergvölker sind tot, obwohl sie niemanden etwas getan haben, du Monster!");
-        return;
+        printGameResult(player);
+    }
+
+    private static Hero createCharacter() {
+        Scanner scan = new Scanner(System.in);
+        System.out.print("Gib den Namen deines Charakters ein: ");
+        String name = scan.nextLine();
+        int job = chooseJob();
+        Hero player = (job == 1)
+                ? new Hero(name, 30, 1, 10, 1, 30, 0, 0,
+                            0, 30,90,false, true)
+                : new Hero(name, 60, 10, 1, 2, 10, 0, 0,
+                            0, 10,90,true, false);
+        player.printCharacter();
+        return player;
     }
 
     public static int chooseJob() {
-        int job = 0;
         Scanner scan = new Scanner(System.in);
-
-        while(job == 0 || job > 2) {
-            System.out.print("Wähle deine Klasse (Magier = 1, Krieger = 2): \nOder Infos zur Klasse(Magier = 3, Krieger = 4): ");
+        int job = 0;
+        while (job < 1 || job > 2) {
+            System.out.print("Wähle deine Klasse (Magier = 1, Krieger = 2):" +
+                    "\nOder Infos zur Klasse(Magier = 3, Krieger = 4): ");
             job = scan.nextInt();
-            if (job == 3) {
-                System.out.print("\nDer Magier ist ein Fernkämpfer, ohne viel Gesundheit und Verteidigung\n\n");
-            }
-            if (job == 4) {
-                System.out.print("\nDer Krieger ist ein Nahkämpfer, mit viel Gesundheit und Verteidigung\n\n");
-            }
+            if (job == 3) System.out.print("\nDer Magier ist ein Fernkämpfer, ohne viel Gesundheit und Verteidigung\n\n");
+            if (job == 4) System.out.print("\nDer Krieger ist ein Nahkämpfer, mit viel Gesundheit und Verteidigung\n\n");
         }
         return job;
     }
 
-    private static int chooseEncounter(int situation) {
-        Random rand = new Random();
-        situation = rand.nextInt(10+10+10)+1;
-        return situation;
+    private static int chooseEncounter() {
+        return new Random().nextInt(10+10+10) + 1;
     }
 
-}
+    private static Enemy generateEnemy(Random rand) {
+        int mob = rand.nextInt(10) + 1;
+        if (mob <= 4) return new Enemy("Goblin", 20, 2, 1, 0, 0);
+        if (mob >= 7) return new Enemy("Ork", 30, 4, 2, 0, 0);
+        return new Enemy("Troll", 40, 6, 3, 0, 0);
+    }
 
+    private static void regenerateMana(Hero player) {
+        if (player.manadrain > 0) {
+            --player.manadrain;
+            String resource = player.isMage ? "Mana" : "Energie";
+            System.out.print("Du hast 1 " + resource + " erhalten!\nDu hast jetzt noch " + (player.mana - player.manadrain) + " " + resource + "\n");
+            System.out.println("Drücke Enter!\n");
+            new Scanner(System.in).nextLine();
+        }
+    }
+
+    private static void printGameResult(Hero player) {
+        if (player.health < player.death) {
+            System.out.print("Du bist tot!");
+        } else {
+            System.out.print("Der Ogerboss ist tot!\nDein Genozid abgeschlossen!\nAlle Bergvölker sind tot, obwohl sie niemandem etwas getan haben, du Monster!");
+        }
+    }
+}

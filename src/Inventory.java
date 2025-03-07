@@ -65,6 +65,15 @@ public class Inventory {
                     items.remove(item);
                     System.out.println("Das war dein letzter " + item.getName());
                 }
+            } else if (item.resourceHeal) {
+                item.HealUsage(player, item.heal);
+                System.out.println(item.getName() + " benutzt!");
+
+                item.decreaseAmount(1);
+                if (item.getAmount() == 0) {
+                    items.remove(item);
+                    System.out.println("Das war dein letzter " + item.getName());
+                }
             } else {
                 System.out.println("Dieses Item kann nicht verwendet werden.");
             }

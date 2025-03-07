@@ -1,10 +1,12 @@
-public class Hero {
-    int health, str, intel, def, mana, lvl, death, exp;
+
+class Hero {
+    int health, str, intel, def, mana, lvl, death, exp, manadrain, gold, accuracy;
     String name;
     boolean isMage, isWarrior;
     Inventory inventory;
 
-    public Hero(String name, int health, int str, int intel, int def, int mana, int lvl, int death, boolean isWarrior, boolean isMage) {
+    public Hero(String name, int health, int str, int intel, int def, int mana, int lvl,
+                int death, int manadrain, int gold, int accuracy, boolean isWarrior, boolean isMage) {
         this.name = name;
         this.health = health;
         this.str = str;
@@ -13,13 +15,17 @@ public class Hero {
         this.mana = mana;
         this.lvl = lvl;
         this.death = death;
+        this.manadrain = manadrain;
+        this.gold = gold;
+        this.accuracy = accuracy;
         this.isWarrior = isWarrior;
         this.isMage = isMage;
         this.inventory = new Inventory();
     }
     public void printCharacter() {
-        System.out.println("\nDeine Klasse ist: Magier\nDein Name ist: " + this.name + "\nGesundheit: " + this.health + "\nStärke: "
-                + this.str + "\nIntelligenz: " + this.intel + "\nVerteidigung: " + this.def + "\nMana: " + this.mana + "\n\n");
+        System.out.println("\nDeine Klasse ist: Magier\nDein Name ist: " + this.name + "\nGesundheit: " + this.health +
+                "\nStärke: " + this.str + "\nIntelligenz: " + this.intel + "\nVerteidigung: " + this.def +
+                "\nGenauigkeit: " + this.accuracy + "\nMana: " + this.mana + "\nStufe: " + this.lvl + "\nGold: " + this.gold +"\n\n");
     }
     public static void lvl(Hero player){
 
