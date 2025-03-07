@@ -13,10 +13,7 @@ public class MageAbility {
             if (player.mana > 0) {
                 heal = rand.nextInt(5) + 5 + player.intel / 2;
                 System.out.println("Du hast dich um " + heal + " Gesundheit geheilt!");
-                player.death -= heal;
-                if (player.death < 0) {
-                    player.death = 0;
-                }
+                player.death = Math.max(0, player.death - heal);
                 --player.mana;
                 System.out.println("Du hast jetzt noch " + (player.health - player.death) + "Gesundheit!\n" +
                         "Du hast jetzt noch " + player.mana + " Mana");
