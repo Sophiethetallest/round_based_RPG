@@ -6,7 +6,7 @@ public class Main {
         Random rand = new Random();
         int weapon = 0, situation;
         Hero player = createCharacter();
-        player.lvl = 2;
+        //player.lvl = 2;
 
         while (player.health > player.death && player.lvl < 4) {
             if (player.lvl < 3) {

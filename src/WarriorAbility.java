@@ -1,71 +1,69 @@
 import java.util.Random;
 
 public class WarriorAbility {
-    Random rand = new Random();
-    int dmg, hit;
-    String oom = "Du hast zu wenig Energie, andere Wahl treffen";
-    public WarriorAbility() {
-
-    }
+    private final Random rand = new Random();
+    private final String oom = "Du hast zu wenig Energie, andere Wahl treffen";
 
     public void abilityWarrior(int abilityNr, Hero player, Enemy enemy, int weapon) {
-        if (abilityNr == 1) {
-            if ((player.mana - player.manadrain) > 1) {
-                System.out.println("Du blockst den nächsten Angriff");
-                enemy.mobBlock ++;
-                ++player.manadrain;
-                mana(player);
-            } else {
-                System.out.println(oom);
-            }
+        if (!hasEnoughEnergy(player, abilityNr)) {
+            System.out.println(oom);
+            return;
         }
-        if (abilityNr == 2) {
-            if ((player.mana - player.manadrain) > 1) {
-                dmg = rand.nextInt(5) + 10 + player.str * 2 + weapon;
-                System.out.println("Dein harter Schlag hat " + dmg + " Schaden gemacht!");
-                enemy.mobLife -= dmg;
-                moblife(enemy);
-                player.manadrain += 2;
-                mana(player);
-            } else {
-                System.out.print(oom);
-            }
-        }
-        if (abilityNr == 3 && player.lvl > 1) {
-            if ((player.mana - player.manadrain) > 1) {
-                dmg = rand.nextInt(3 + 3) + player.str * 2 + weapon;
-                System.out.println("Deine Tritt in die Eier hat " + dmg + " Schaden gemacht und der " + enemy.name + "krümmt sich am Boden vor Schmerz!");
-                enemy.mobLife -= dmg;
-                moblife(enemy);
-                System.out.println("Der Gegner ist außerdem für eine Runde betäubt!");
-                enemy.mobStun++;
-                player.manadrain += 3;
-                mana(player);
-            } else {
-                System.out.print(oom);
-            }
-        }
-        if (abilityNr == 4 && player.lvl >= 2) {
-            if ((player.mana - player.manadrain) > 1) {
-                hit = rand.nextInt(3) + 1;
-                dmg = rand.nextInt(3) + 10 + player.str * 2 + weapon;
-                dmg = dmg * hit;
-                System.out.println("Deine schnelle Hiebe haben " + hit + " getroffen und " + dmg + " Schaden gemacht!");
-                enemy.mobLife -= dmg;
-                moblife(enemy);
-                player.manadrain += 4;
-                mana(player);
-            } else {
-                System.out.print(oom);
-            }
+
+        switch (abilityNr) {
+            case 1 -> blockAttack(player, enemy);
+            case 2 -> heavyStrike(player, enemy, weapon);
+            case 3 -> { if (player.lvl > 1) groinKick(player, enemy, weapon); }
+            case 4 -> { if (player.lvl >= 2) rapidStrikes(player, enemy, weapon); }
         }
     }
 
-    public void mana(Hero player) {
+    private boolean hasEnoughEnergy(Hero player, int cost) {
+        return (player.mana - player.manadrain) > cost;
+    }
+
+    private void blockAttack(Hero player, Enemy enemy) {
+        enemy.mobBlock++;
+        player.manadrain++;
+        System.out.println("Du blockst den nächsten Angriff!");
+        printEnergy(player);
+    }
+
+    private void heavyStrike(Hero player, Enemy enemy, int weapon) {
+        int dmg = rand.nextInt(5) + 10 + player.str * 2 + weapon;
+        enemy.mobLife -= dmg;
+        player.manadrain += 2;
+        System.out.println("Dein harter Schlag hat " + dmg + " Schaden gemacht!");
+        printMobLife(enemy);
+        printEnergy(player);
+    }
+
+    private void groinKick(Hero player, Enemy enemy, int weapon) {
+        int dmg = rand.nextInt(6) + player.str * 2 + weapon;
+        enemy.mobLife -= dmg;
+        enemy.mobStun++;
+        player.manadrain += 3;
+        System.out.println("Dein Tritt in die Eier hat " + dmg + " Schaden gemacht! Der " + enemy.name + " krümmt sich am Boden vor Schmerz!");
+        System.out.println("Der Gegner ist außerdem für eine Runde betäubt!");
+        printMobLife(enemy);
+        printEnergy(player);
+    }
+
+    private void rapidStrikes(Hero player, Enemy enemy, int weapon) {
+        int hits = rand.nextInt(3) + 1;
+        int dmg = (rand.nextInt(3) + 10 + player.str * 2 + weapon) * hits;
+        enemy.mobLife -= dmg;
+        player.manadrain += 4;
+        System.out.println("Deine schnellen Hiebe haben " + hits + " Mal getroffen und " + dmg + " Schaden gemacht!");
+        printMobLife(enemy);
+        printEnergy(player);
+    }
+
+    private void printEnergy(Hero player) {
         System.out.println("Du hast jetzt noch " + (player.mana - player.manadrain) + " Energie!");
     }
 
-    public void moblife(Enemy enemy) {
+    private void printMobLife(Enemy enemy) {
         if (enemy.mobLife > 0) {
             System.out.println("Der Gegner hat noch " + enemy.mobLife + " Gesundheit!");
         }
