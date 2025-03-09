@@ -98,7 +98,7 @@ public class Encounter {
                 break;
 
             case 10:
-                System.out.println("Ein alter Einsiedler sitzt am Wegesrand und bietet dir eine mysteriöse Flasche an. Willst du sie annehemen?(Y/N)");
+                System.out.println("Ein alter Einsiedler sitzt am Wegesrand und bietet dir eine mysteriöse Flasche an. Willst du sie annehemen?(Y/X)");
                 if(scan.nextLine().equalsIgnoreCase("y")) {
                     if (rand.nextBoolean()) {
                         System.out.println("Du trinkst und fühlst dich gestärkt!\nAlle Werte +1");
@@ -159,7 +159,8 @@ public class Encounter {
                 break;
 
             case 15:
-                System.out.println("Ein freundlicher Händler bietet dir einen Trank an. Er kostet 30 Gold, möchtest du ihn kaufen? (Y/N)");
+                System.out.println("Ein freundlicher Händler bietet dir einen Trank an. Er kostet 30 Gold und du hast noch "
+                        + player.gold + ", möchtest du ihn kaufen? (Y/X)");
                 if (scan.nextLine().equalsIgnoreCase("y")) {
                     if (player.gold >= 30) {
                         System.out.println("Du kaufst den Trank für 30 Gold.\nDu erhältst einen großen Heiltrank.");
@@ -217,7 +218,8 @@ public class Encounter {
                 break;
 
             case 21:
-                System.out.println("Ein reisender Barde bietet an, dir eine inspirierende Geschichte zu erzählen... für 40 Gold. Willst du ihn dafür bezahlen? (Y/N)");
+                System.out.println("Ein reisender Barde bietet an, dir eine inspirierende Geschichte zu erzählen... für 40 Gold." +
+                        "Du hast noch " + player.gold + ", willst du ihn dafür bezahlen? (Y/X)");
                 if(scan.nextLine().equalsIgnoreCase("y")) {
                     if (player.gold >= 40) {
                         player.gold -= 40;
@@ -236,7 +238,8 @@ public class Encounter {
                 break;
 
             case 22:
-                System.out.println("Du findest eine kleine Arena, wo Gladiatoren um Gold kämpfen. Möchtest du Wetten abschließen? (Y/N)");
+                System.out.println("Du findest eine kleine Arena, wo Gladiatoren um Gold kämpfen. Du hast noch " +
+                        player.gold + ", möchtest du Wetten abschließen? (Y/X)");
                 if (scan.nextLine().equalsIgnoreCase("y")) {
                     if (player.gold >= 50) {
                         System.out.println("Du setzt 50 Gold auf einen Kämpfer...");
@@ -254,7 +257,8 @@ public class Encounter {
                 break;
 
             case 23:
-                System.out.println("Ein zwielichtiger Händler flüstert dir zu: \"Ich habe ein mächtiges Amulett... für 75 Gold.\" Möchtest du es kaufen? (Y/N)");
+                System.out.println("Ein zwielichtiger Händler flüstert dir zu: \"Ich habe ein mächtiges Amulett... für 75 Gold.\" " +
+                        "Du hast noch " + player.gold + ", möchtest du es kaufen? (Y/X)");
                 if (scan.nextLine().equalsIgnoreCase("y")) {
                     if (player.gold >= 75) {
                         System.out.println("Du kaufst das Amulett und fühlst eine unbekannte Macht!\nIntelligenz +2");
@@ -267,7 +271,8 @@ public class Encounter {
                 break;
 
             case 24:
-                System.out.println("Ein fahrender Medicus bietet an, dich zu heilen... für 30 Gold. Möcchtest du die Hilfe annehemen? (Y/N)");
+                System.out.println("Ein fahrender Medicus bietet an, dich zu heilen... für 30 Gold. Du hast noch " +
+                        player.gold + ", möchtest du die Hilfe annehemen? (Y/X)");
                 if (scan.nextLine().equalsIgnoreCase("y")) {
                     if (player.gold >= 30) {
                         System.out.println("Der Medicus versorgt deine Wunden.\nDu wirst um 15 geheilt.");
@@ -286,7 +291,8 @@ public class Encounter {
                 break;
 
             case 26:
-                System.out.println("Ein alter Mönch bietet dir eine mysteriöse Schriftrolle für 60 Gold an. Möchtest du sie kaufen? (X/N)");
+                System.out.println("Ein alter Mönch bietet dir eine mysteriöse Schriftrolle für 60 Gold an. Du hast noch " +
+                        player.gold + ", möchtest du sie kaufen? (Y/X)");
                 if (scan.nextLine().equalsIgnoreCase("y")) {
                     if (player.gold >= 60) {
                         System.out.println("Du kaufst die Schriftrolle und spürst einen Energieschub!\nRüstung +2, Intelligenz +1");
@@ -300,7 +306,7 @@ public class Encounter {
                 break;
 
             case 27:
-                System.out.println("Ein geheimnisvoller Markt lockt mit seltenen Waren. Willst du dich umsehen? (Y/N)");
+                System.out.println("Ein geheimnisvoller Markt lockt mit seltenen Waren. Willst du dich umsehen? (Y/X)");
                 if (scan.nextLine().equalsIgnoreCase("y")) {
                     if (player.gold >= 100) {
                         System.out.println("Du kaufst eine seltsame Tinktur und fühlst dich gestärkt!\nStärke +2, Trefferchance +3%");
@@ -315,7 +321,7 @@ public class Encounter {
 
             case 28:
                 System.out.println("Du findest einen Waffenschmied, der deine Waffe verbessern kann... für 80 Gold. " +
-                        "Möchtest du ihn dafür bezahlen? (Y/N)");
+                        "Du hast noch " + player.gold + ", möchtest du ihn dafür bezahlen? (Y/N)");
                 if (scan.nextLine().equalsIgnoreCase("y")) {
                     if (player.gold >= 80) {
                         System.out.println("Der Schmied arbeitet hart und verbessert deine Waffe!\nAngriff +2, Trefferchance +2%");
@@ -330,7 +336,7 @@ public class Encounter {
 
             case 29:
                 System.out.println("Ein mysteriöser Magier bietet dir ein Glücksspiel an: 50 Gold für eine magische Belohnung. " +
-                        "Traust du dich am Glückspiel teilzunehmen? (Y/N)");
+                        "Du hast noch " + player.gold + ", traust du dich am Glückspiel teilzunehmen? (Y/X)");
                 if (scan.nextLine().equalsIgnoreCase("y")) {
                     if (player.gold >= 50) {
                         player.gold -= 50;

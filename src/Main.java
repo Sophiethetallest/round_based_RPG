@@ -4,8 +4,12 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Random rand = new Random();
+        Hero player = GameSave.promptLoadCharacter();
+        if (player == null) {
+            player = createCharacter();
+        }
         int weapon = 0, situation;
-        Hero player = createCharacter();
+        //Hero player = createCharacter();
         //player.lvl = 2;
 
         while (player.health > player.death && player.lvl < 4) {
@@ -22,6 +26,7 @@ public class Main {
             } else {
                 new Fight(player, new Enemy("Ogerboss", 150, 8, 300, 0, 0)).Bossfight(player);
             }
+            GameSave.promptSaveCharacter(player);
         }
         printGameResult(player);
     }
