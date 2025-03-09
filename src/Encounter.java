@@ -175,7 +175,7 @@ public class Encounter {
             case 16:
                 System.out.println("Ein dunkler Nebel zieht auf... Deine Sinne trügen dich.");
                 System.out.println("Du verlierst die Orientierung und verlierst etwas Zeit.");
-                // Hier könnte eine Mechanik eingebaut werden, die den Spieler eine Runde verliert.
+                // Mögliche zukünftige Mechanik, eines Zeit oder Runden verlust.
                 break;
 
             case 17:
